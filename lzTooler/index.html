@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		
+		
+	</head>
+	<body>
+		<cte class="color-white bg-blue">
+			我被动态添加了css样式效果
+		</cte>
+		<div class="domain"></div>
+		<script src="js/lz-tools.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/lz_wx_refresh.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			var style = document.createElement("style");style.innerHTML = ".domain{width:20px;height: 20px;background: red;}";
+//			<style>.domain{width:20px;height: 20px;background: red;}</style>
+			document.head.appendChild(style)
+			lzTooler.toast('我是toast信息')
+
+			lzTooler.log(lzTooler.winSize);
+			
+			lzTooler.addStylesheetRules([['.color-white','color:#333333'],['.bg-blue','color:lightblue']]);
+			lzTooler.addStylesheetRules([['cte','font-size:30px']]);
+			
+			var obj = {
+				'name':'lz',
+				'age':'18'
+			};
+			var str = lzTooler.objToStrForPost(obj);
+			lzTooler.log(str);
+			
+			
+			lzTooler.log(lzTooler.isObject(obj));
+			lzTooler.log(lzTooler.isObject(str));
+			
+			lzTooler.log(lzTooler.isRealQQ());
+//			lzTooler.log(lzTooler.isWeixin());
+//			lzTooler.log(lzTooler.isAndroid());
+//			lzTooler.log(lzTooler.isAndroid());
+//			lzTooler.log(lzTooler.isAndroid());
+			
+//			获取函数调用者demo
+			function a(){
+				console.log(a.caller.name);
+			}
+			
+			function b(){
+				a();
+			}
+			b();
+		</script>
+	</body>
+</html>

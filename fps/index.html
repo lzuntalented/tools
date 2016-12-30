@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div style="position: fixed;color: black;left: 10px;bottom: 10px" id="fps"></div>
+		<script type="text/javascript">
+			/*
+			 * 浏览器刷新回调
+			 */
+			var frame_func = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(func) {
+				window.setTimeout(func, 1000 / 60);
+			};
+
+			/*帧率显示器*/
+			!(function() {
+				var now = 0;
+				var fps = document.getElementById("fps");
+				var last_fps = 0;
+				var fps_count = 0;
+
+				function get_fps(dt) {
+					if(dt - now > 1000) {
+						if(last_fps != fps_count + 1)
+							fps.innerHTML = fps_count + 1;
+
+						now = dt;
+						last_fps = fps_count + 1;
+						fps_count = 0;
+					} else {
+						fps_count++;
+					}
+					frame_func(get_fps);
+				}
+				frame_func(get_fps);
+			})();
+	
+		</script>
+	</body>
+
+</html>
