@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+	</head>
+	<style type="text/css">
+		html,
+		body {
+			height: 100%;
+			width: 100%;
+			margin: 0 0;
+			padding: 0 0;
+		}
+		
+		#point_contianer {
+			width: 80%;
+			height: 60%;
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			
+			/*使用3d变换，可以强制开启GPU加速，增加流畅度*/
+			transform: translateZ(0);
+			-webkit-transform: translateZ(0);
+		}
+	</style>
+	<body id="point_contianer">
+		<script>
+			var container_size = {
+				width: window.innerWidth,
+				height: window.innerHeight
+			}
+
+			function setCss(obj, arr) {
+				for(var i in arr) {
+					obj.style[i] = arr[i];
+				}
+			}
+			window.onload = function() {
+				var fps = 60; //当前帧率
+				var frame_func = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(func) {
+					window.setTimeout(func, 1000 / fps);
+				};
+
+				var list = [];
+				/*随机点活动范围*/
+				var point_size = {
+					width: container_size.width * 0.8,
+					height: container_size.height * 0.6
+				};
+
+				var list_color = ["#f2d403", "#00b7ee", "#75c1f6", "#4eacf4"];
+				for(var i = 0; i < 13; i++) {
+					var div = document.createElement("div");
+					var width = (Math.floor(Math.random() * 10) + 1) * 5;
+					var color_idx = Math.floor(Math.random() * list_color.length);
+					var top = Math.floor(Math.random() * (Math.floor(point_size.height) - width));
+					var left = Math.floor(Math.random() * (Math.floor(point_size.width) - width));
+					setCss(div, {
+						"position": "absolute",
+						"top": top,
+						"left": left,
+						"background": list_color[color_idx],
+						"width": width + "px",
+						"height": width + "px",
+						"border-radius": "50%",
+						"opacity": "0.6"
+					});
+					var item = {
+						x: Math.floor(Math.random() * 5 + 1) * (Math.random() * 10 > 5 ? 1 : -1),
+						y: Math.floor(Math.random() * 5 + 1) * (Math.random() * 10 > 5 ? 1 : -1),
+						top: top,
+						left: left,
+						content: div,
+						width: width
+					};
+					list.push(item);
+					document.getElementById("point_contianer").appendChild(div);
+				}
+
+				function run() {
+					for(var i = 0; i < 13; i++) {
+						var x = list[i].x + list[i].left;
+						var y = list[i].y + list[i].top;
+
+						//						list[i].content.css("left",x + "px");
+						//						list[i].content.css("top",y + "px");
+						setCss(list[i].content, {
+							"left": x + "px",
+							"top": y + "px"
+						})
+						list[i].top = y;
+						list[i].left = x;
+						(x < 0 || x > point_size.width) && (list[i].x = -list[i].x);
+						(y < 0 || y > point_size.height) && (list[i].y = -list[i].y);
+
+					}
+					frame_func(run);
+				}
+				frame_func(run);
+			}
+		</script>
+	</body>
+
+</html>

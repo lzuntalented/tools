@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/LZBoom.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var boom = $.LZBoom();//创建心形对象
+			var tag = true;
+			document.addEventListener("click",function(){
+				if(tag)
+					boom.action();
+				else
+					boom.actionback();
+				
+				tag = !tag;
+			});
+		</script>
+	</body>
+</html>

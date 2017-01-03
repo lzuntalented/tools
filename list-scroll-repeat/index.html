@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.scroll-contaner{
+				width: 400px;
+				height: 200px;
+				background: #E6E6E6;
+				position: relative;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="scroll-contaner">
+			<ul style="position: absolute;">
+				<li>
+					第1行
+				</li>
+				<li>
+					第2行
+				</li>
+				<li>
+					第3行
+				</li>
+				<li>
+					第4行
+				</li>
+				<li>
+					第5行
+				</li>
+				<li>
+					第6行
+				</li>
+				<li>
+					第7行
+				</li>
+				<li>
+					第8行
+				</li>
+				<li>
+					第9行
+				</li>
+				<li>
+					第10行
+				</li>
+				<li>
+					第11行
+				</li>
+				<li>
+					第12行
+				</li>
+				<li>
+					第13行
+				</li>
+				<li>
+					第14行
+				</li>
+				<li>
+					第15行
+				</li>
+				<li>
+					第16行
+				</li>
+				<li>
+					第17行
+				</li>
+				<li>
+					第18行
+				</li>
+				<li>
+					第19行
+				</li>
+				<li>
+					第20行
+				</li>
+			</ul>
+		</div>
+		
+		<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			/*
+			 * 无限滚动原理：
+			 * 在一个固定容器里，不停地将第一个元素插入到最后，形成的效果。
+			 * 需要注意的是，每个子项的高度需要与每次总移动的高度相同，这样才不会有一种停顿的感觉
+			 */
+			
+			var dom_move = $(".scroll-contaner ul");
+			
+			var item_height = 24;
+			dom_move.find("li").css('height',item_height+"px");
+			
+			var item_count = 0;
+
+			setInterval(function(){
+//				console.log(item_count);
+				if(item_count ++ >= item_height){
+					item_count = 0;
+					
+					var fist = $(dom_move.children()[0]).remove();
+					dom_move.append(fist);
+					dom_move.css('top',"0px");
+				}
+				
+				dom_move.css('top',(dom_move.position().top - 1) + "px");
+			},1000 / 60);
+			
+		
+		</script>
+	</body>
+</html>
