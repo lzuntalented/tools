@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>排序算法动画演示</title>
+		<style type="text/css">
+			html,body{
+				margin: 0 0;
+				padding: 0 0;
+			}
+			body{
+				background: #f0deb9;
+			}
+			#container{
+				margin-top: 20px;
+				height: 400px;	
+				position: relative;
+				border-top: 1px solid #CC9b6a;
+				border-bottom: 1px solid #CC9b6a;
+			}
+			.dom{
+				width: 50px;
+				height: 200px;
+				position: absolute;
+				left: 0px;
+				bottom: 0px;
+				background: #FFFFFF;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<span>数组长度：</span><input type="text" name="" id="data_len" value="10" /><button id="reset">重置排序源数据</button>
+			<div><span>排序源数据：<input type="text" name="" id="data_orign" value="" />
+			<div><span>排序结果：<input type="text" name="" id="data_result" value="" readonly="readonly"/>
+		</div>
+		<div>
+			<span>排序算法：</span>
+			<input type="radio" name="sort_type" checked id="" value="0" />冒泡排序
+			<input type="radio" name="sort_type" id="" value="1" />快速排序
+			<!--<input type="radio" name="sort_type" id="" value="2" />冒泡排序
+			<input type="radio" name="sort_type" id="" value="3" />冒泡排序-->
+		</div>
+		<div>
+			<span>动画速度：</span>
+			<button id="speed_add">加速</button>
+			<button id="speed_cut">减速</button>
+		</div>
+		<div>
+			<button id="show_start">开始演示</button>
+			<button id="show_reset">暂停</button>
+		</div>
+		<div id="container"></div>
+		<script type="text/javascript">
+			var fps = 60;//帧率
+			var frame_func = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||window.msRequestAnimationFrame ||
+				function(func){setTimeout(func,1000 / fps)};
+			
+			var fps_now = 0;
+			/*运行帧任务*/
+			var run = function(dt){
+				if(dt - fps_now > (1000 / fps)) {
+					update(dt);
+					fps_now = dt;
+				} 
+				
+				frame_func(run);
+			}
+			frame_func(run);
+			
+//			var dom = document.querySelectorAll(".dom");
+//			dom = dom[0];
+//			var left = parseFloat(getCss(dom,"left"));
+			
+			/**
+			 * 获取元素样式值
+			 * @param {Object} ele dom元素
+			 * @param {Object} key 样式名称，不传返回样式列表
+			 */
+			function getCss(ele,key) {
+			    var style = null;
+			    var value = "";
+			    
+			    if(window.getComputedStyle) {
+			        style = window.getComputedStyle(ele, null);
+			        key && (value = style.getPropertyValue(key));
+			    }else{
+			        style = ele.currentStyle;
+			        key && (value = style[key]);
+			    }
+			    
+			    if(key) return value;
+			    return style;
+			}
+			
+//			function update(){
+////				moveDom(dom,20,1)
+//			}
+			
+			/*屏幕尺寸*/
+			var winSize = {
+				width: window.innerWidth
+			}
+			
+			/*动画暂定标示*/
+			var pause = true;
+			
+			/**
+			 * 移动元素
+			 * @param {Object} dom
+			 * @param {Object} end
+			 * @param {Object} increse
+			 * @param {Object} end_func
+			 */
+			function moveDom(dom,end,increse,end_func){
+				var left = parseFloat(getCss(dom,"left"));
+				left += increse;
+				increse < 0 && left < end && (left = end) ;
+				increse > 0 && left > end && (left = end);
+				dom.style.left = left + "px";
+				
+				if(left == end){
+					typeof end_func === "function" && end_func()
+				}
+			}
+			
+			/**
+			 * 创建标示数值的dom元素
+			 * @param {Object} inputs
+			 */
+			function createDom(inputs){
+				var max = 0;
+				var min = 0;
+				var elems = [];
+				var len = inputs.length;
+				var width = winSize.width / (len * 2 - 1);
+				for(var i = 0; i < len ; ++i){
+					var elem = document.createElement("div");
+					elem.className = "dom";
+					elem.style.width = width + "px";
+					elem.style.left = (width * 2 * i) + "px";
+					elem.innerHTML = inputs[i];
+					elems.push(elem);
+					
+					max = Math.max(max,inputs[i]);
+					min = Math.min(min,inputs[i]);
+				}
+				
+				var e = (max - min ) / 10;
+				
+				for(var i = 0, len = elems.length; i < len ; ++i){
+					elems[i].style.height = inputs[i] * 4 + "px";
+					document.getElementById("container").appendChild(elems[i]);
+				}
+				
+				return elems;
+			}
+			
+//			var inputs = [9,4,56,7,15,6,10];
+//			console.log(inputs);
+//			var doms = createDom(inputs);
+//			var moveList = [];
+			
+//			var inputs = [9,4,56,7,15,6,10];
+//			console.log(inputs);
+			var doms = [];
+			var moveList = [];
+			
+			/**
+			 * 用于初始化排序结果
+			 * @param {Object} arr
+			 */
+			function sort_unkonw(arr){
+				/*未知名排序*/
+				for(var i = 0, len = arr.length; i < len ; ++i){
+					for(var j = i + 1; j < len ; ++j){
+						if(arr[j] < arr[i]){
+							arr[j] = arr[j] ^ arr[i];
+							arr[i] = arr[j] ^ arr[i];
+							arr[j] = arr[j] ^ arr[i];
+							
+							moveList.push({
+								l: i,
+								r: j
+							});
+						}
+					}
+				}
+			}
+
+			function sort_bubble(arr){
+				/*冒泡排序*/
+				for(var i = 0, len = arr.length; i < len ; ++i){
+					for(var j = 0; j < len - 1 - i ; ++j){
+						if(arr[j] > arr[j + 1]){
+							arr[j] = arr[j] ^ arr[j + 1];
+							arr[j + 1] = arr[j] ^ arr[j + 1];
+							arr[j] = arr[j] ^ arr[j + 1];
+							
+							moveList.push({
+								l: j,
+								r: j + 1
+							});
+						}
+					}
+				}
+			}
+			
+			
+			/*快速排序*/
+			function quick_sort(arr,start,end){
+
+				if(start >= end){
+					return;
+				}
+				
+				var base = arr[start];
+				
+				var i = start;
+				var j = end;
+				while(i != j){
+
+					while(i < j && arr[j] >= base){
+						j--;
+					}
+					var temp = arr[j];
+					arr[j] = arr[i];
+					arr[i] = temp;
+					
+					/*记录交换过程*/
+					moveList.push({
+						l: i,
+						r: j
+					});
+					
+					while(i < j && arr[i] <= base){
+						i++;
+					}
+					
+
+					var temp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = temp;
+					
+					/*记录交换过程*/
+					moveList.push({
+						l: i,
+						r: j
+					});
+					
+				}
+
+				quick_sort(arr,start,i - 1);
+				quick_sort(arr,i+1,end);
+
+			}
+//			inputs = [12,19,100,100,34];
+////			/*快速排序*/
+//			quick_sort(inputs,0,inputs.length-1);
+////
+//			console.log(inputs);
+			
+			var add = false;
+			function update(){
+				if(pause) return ;
+				
+				var width = winSize.width / (inputs.length * 2 - 1);
+				if(moveList.length > 0){
+					var list = moveList[0];
+
+					moveDom(doms[list.l],width * 2 * list.r, 5,function(){
+						moveList.splice(0,1);
+						
+						var tmp = doms[list.l];
+						doms[list.l] = doms[list.r];
+						doms[list.r] = tmp;
+					});
+					
+					moveDom(doms[list.r],width * 2 * list.l, -5);
+//					var dom = add ? doms[list.l] : doms[list.r];
+//
+//					moveDom(dom,width * 2 * (add ? list.r : list.l),add ? 5 : -5,function(){
+//						if(add){
+//							moveList.splice(0,1);
+//							console.log(moveList);
+//						}
+//						
+//						add = !add;
+////						add && moveList.pop() && (add = !add);
+//					});
+				}else{
+					pause = true;
+				}
+			}
+			
+			/*将数组转化为纯数字*/
+			function num_arr(arr){
+				for(var len = arr.length , i = len - 1; i >= 0 ; -- i){
+					arr[i] = parseFloat(arr[i]);
+				}
+			}
+			
+			/**
+			 * 初始化数据
+			 * @param {Object} len
+			 */
+			function init_data(len){
+				len = len || 10;
+				var temp = [];
+				for (var i = 0 ; i< len; ++i) {
+					var random = Math.floor(Math.random() * 100) + 10;
+					random > 100 && (random = 100);
+					temp.push(random);
+				}
+				
+				document.getElementById("data_orign").value = temp.join(",");
+				sort_unkonw(temp);
+				document.getElementById("data_result").value = temp.join(",");
+			}
+			
+			init_data();
+			
+			/*重置事件*/
+			document.getElementById("reset").onclick = function(){
+				var len = document.getElementById("data_len").value;
+				len = parseInt(len) ;
+				if( !len || len <= 0 || len > 25 ){
+					alert("数组长度不合法!");
+					return ;
+				}
+				
+				init_data(len);
+			}
+			
+			document.getElementById("show_start").onclick = function(){
+//				if(!pause) return ;
+				
+				var elems = document.querySelectorAll("[name='sort_type']");
+				var idx = 0;
+				for(var i = 0 , len = elems.length ; i< len ; ++i){
+					if(elems[i].checked){
+						idx = elems[i].value;
+						break;
+					}
+				}
+				
+				document.getElementById("container").innerHTML = "";
+				moveList = [];
+				
+				var arr = document.getElementById("data_orign").value.split(",");
+				num_arr(arr);
+//				console.log(arr);
+				doms = createDom(arr);
+				if(idx == 0){
+					sort_bubble(arr);
+				}else if(idx == 1){
+					quick_sort(arr,0,arr.length - 1);
+				}else {
+					sort_unkonw(arr);
+				}
+				
+				inputs = arr;
+				pause = false;
+			}
+			
+			document.getElementById("show_reset").onclick = function(){
+				if(pause){
+					this.innerHTML = "暂停"
+				}else{
+					this.innerHTML = "继续"
+				}
+				
+				pause = !pause;
+			}
+			
+			document.getElementById("speed_add").onclick = function(){
+				fps+= 5;
+				fps >= 1000 && (fps = 999)
+			}
+			
+			document.getElementById("speed_cut").onclick = function(){
+				fps-= 5;
+				fps <= 0 && (fps = 5)
+			}
+//			console.log(moveList);
+		</script>
+	</body>
+</html>
