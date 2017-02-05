@@ -39,8 +39,8 @@
 			<span>排序算法：</span>
 			<input type="radio" name="sort_type" checked id="" value="0" />冒泡排序
 			<input type="radio" name="sort_type" id="" value="1" />快速排序
-			<!--<input type="radio" name="sort_type" id="" value="2" />冒泡排序
-			<input type="radio" name="sort_type" id="" value="3" />冒泡排序-->
+			<input type="radio" name="sort_type" id="" value="2" />插入排序
+			<!--<input type="radio" name="sort_type" id="" value="3" />冒泡排序-->
 		</div>
 		<div>
 			<span>动画速度：</span>
@@ -261,6 +261,28 @@
 ////
 //			console.log(inputs);
 			
+			function sort_insert(arr){
+				/*插入排序*/
+				for(var i = 1, len = arr.length; i < len ; ++i){
+					var base = arr[i];
+					for(var j = i- 1; j >= 0 ; --j){
+						if(arr[j] > arr[j + 1]){
+							arr[j] = arr[j] ^ arr[j + 1];
+							arr[j + 1] = arr[j] ^ arr[j + 1];
+							arr[j] = arr[j] ^ arr[j + 1];
+							
+							moveList.push({
+								l: j,
+								r: j + 1
+							});
+						}else{
+							break;
+						}
+					}
+				}
+			}
+			
+			
 			var add = false;
 			function update(){
 				if(pause) return ;
@@ -356,6 +378,8 @@
 					sort_bubble(arr);
 				}else if(idx == 1){
 					quick_sort(arr,0,arr.length - 1);
+				}else if(idx == 2){
+					sort_insert(arr);
 				}else {
 					sort_unkonw(arr);
 				}
