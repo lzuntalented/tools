@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			/*自定义log输出*/
+			function log(){
+				console.log.apply(this,arguments);
+			}
+			
+			/*检测变量类型*/
+			function isType(type){
+				return function(obj){
+					return {}.toString.call(obj) == "[object " + type + "]";
+				}
+			}
+			
+			var isObject = isType("Object");
+			var isArray = isType("Array");
+			
+			/*深度拷贝*/
+			function copy(obj){
+				var result;
+				if(isObject(obj)){
+					result = {};
+				}else if(isArray(obj)){
+					result = [];
+				}
+				
+				for(var i in obj){
+					if(typeof obj[i] === "object"){
+						result[i] = copy(obj[i]);
+					}else{
+						result[i] = obj[i];
+					}
+				}
+				
+				return result;
+			}
+			
+			
+			/*测试数据*/
+			var obj = {
+				a: 1,
+				b: [0,1,2],
+				c: function(){return "c"}
+			}
+			
+			var arr = [0,1]
+			
+			log(obj);
+			
+			copy(obj)
+			copy(arr)
+			log(Array.isArray(arr))
+			log(Array.isArray(obj))
+			
+			log(isObject(arr))
+			log(isObject(obj))
+			
+			var obj1 = copy(obj);
+			log(obj1)
+			obj1.a = 3;
+			log(obj.a)
+			log(obj1.a)
+			
+			obj1.b = 5;
+			log(obj.b)
+			log(obj1.b)
+			
+			obj1.c = 5;
+			log(obj.c())
+			log(obj1.c)
+		</script>
+	</body>
+</html>
