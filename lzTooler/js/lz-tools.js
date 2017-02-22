@@ -212,6 +212,7 @@
 			span.style.padding = '5px 10px';
 			span.style.borderRadius = '10px';
 			span.style.color = 'white';
+			span.style.display = 'inline-block';
 			config.txtElem = span;
 			
 			div.appendChild(span);
