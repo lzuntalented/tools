@@ -291,6 +291,7 @@
 				if(moveList.length > 0){
 					var list = moveList[0];
 
+					moveDom(doms[list.r],width * 2 * list.l, -5);
 					moveDom(doms[list.l],width * 2 * list.r, 5,function(){
 						moveList.splice(0,1);
 						
@@ -299,7 +300,7 @@
 						doms[list.r] = tmp;
 					});
 					
-					moveDom(doms[list.r],width * 2 * list.l, -5);
+					
 //					var dom = add ? doms[list.l] : doms[list.r];
 //
 //					moveDom(dom,width * 2 * (add ? list.r : list.l),add ? 5 : -5,function(){
