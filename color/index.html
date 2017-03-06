@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<title></title>
+	</head>
+	<body>
+		<div class="color-container">
+			<canvas id="canvas" width="400" height="400"></canvas>
+			<div class="right-container">
+				<div class="lz-input-group" >
+					<input class="lz-input lz-input-hover lz-input-focus" type="" name="" id="color_r" value="" readonly="readonly"/>
+					<span class="lz-input-group-addon">R</span>
+				</div>
+				<div class="lz-input-group" >
+					<input class="lz-input lz-input-hover lz-input-focus" type="" name="" id="color_g" value="" readonly="readonly" />
+					<span class="lz-input-group-addon">G</span>
+				</div>
+				<div class="lz-input-group" >
+					<input class="lz-input lz-input-hover lz-input-focus" type="" name="" id="color_b" value="" readonly="readonly" />
+					<span class="lz-input-group-addon">B</span>
+				</div>
+				<div class="lz-input-group" style="width: 150px;">
+					<input class="lz-input lz-input-hover lz-input-focus" type="" name="" id="color_hex" value="" readonly="readonly" />
+					<span class="lz-input-group-addon" style="width: 75px;" >十六进制</span>
+				</div>
+				<div class="lz-input-group" style="width: 150px;">
+					<input class="lz-input lz-input-hover lz-input-focus" type="" name="" id="color_rgb" value=""/>
+					<span class="lz-input-group-addon" style="width: 75px;" id="choice">确定</span>
+				</div>
+			</div>
+		</div>
+		
+		<script src="js/lzColorPicker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			lzColorPicker.init();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+html,
+body {
+	margin: 0 0;
+	padding: 0 0;
+}
+
+#canvas {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.color-container {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.right-container {
+	position: absolute;
+	top: 0px;
+	left: 400px;
+}
+
+.lz-input {
+	position: relative;
+	display: inline-block;
+	font-size: 12px;
+	border: 0px solid transparent;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.lz-input-base {
+	padding: 4px 7px;
+	border-width: 1px;
+	border-color: #d9d9d9;
+	border-radius: 4px;
+}
+
+.lz-input-hover:hover {
+	border-color: #49a9ee;
+}
+
+.lz-input-focus:focus {
+	border-color: #49a9ee;
+	outline: 0;
+	box-shadow: 0 0 0 2px rgba(16, 142, 233, 0.2);
+}
+
+.lz-input-group {
+	width: 60px;
+	margin-top: 30px;
+	position: relative;
+	border: 1px solid #d9d9d9;
+	display: table;
+	border-radius: 4px;
+}
+
+.lz-input-group input {
+	padding: 4px 7px;
+	width: 100%;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-color: #d9d9d9;
+}
+
+.lz-input-group-addon {
+	display: table-cell;
+	padding: 0px 5px;
+	text-align: center;
+	width: 1px;
+}
