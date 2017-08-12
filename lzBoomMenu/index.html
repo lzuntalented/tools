@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.lz-boommenu-container .main,.lz-boommenu-container ul li{
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				list-style: none;
+				background: pink;
+				border-radius: 50%;
+				margin: 0 0;
+				padding: 0 0;
+				transition: all .3s;
+			}
+			.lz-boommenu-container ul{
+				z-index: -1;
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				list-style: none;
+				margin: 0 0;
+				padding: 0 0;
+		 	}
+		 	
+		 	#demo1{
+		 		position: fixed;
+		 		left: 100px;
+		 		top: 50px;
+		 	}
+		 	#demo2{
+		 		position: fixed;
+		 		left: 100px;
+		 		top: 250px;
+		 	}
+		 	#demo3{
+		 		position: fixed;
+		 		left: 100px;
+		 		top: 450px;
+		 	}
+		</style>
+	</head>
+	<body>
+
+		<div id="demo1">
+			<div>1</div>
+			<ul>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+			</ul>
+		</div>
+		<div id="demo2">
+			<div>1</div>
+			<ul>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+			</ul>
+		</div>
+		<div id="demo3">
+			<div>1</div>
+			<ul>
+				<li>22</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+			</ul>
+		</div>
+		
+		<script src="index.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+
+			lzBoomMenu.getInstance({
+				mainElem: demo1,
+				mode:1,
+				subMenuPosition: 'right',
+			});
+//			
+			lzBoomMenu.getInstance({
+				mode:1,
+				mainElem: demo2,
+				subMenuPosition: 'around',
+				animationTime: 'delay',//togethre delay
+				delay: 0.1,//delay time
+				menuClick: function(e,idx){
+					console.log( '第' + idx + '个元素被点击')
+				}
+				
+//				setPosition: function(len){
+//					var result = [];
+//					for (var i = 0; i < len; i++) {
+//						result.push({
+//							x: (i + 1) * -50,
+//							y: (i + 1) * -50,
+//						})
+//					}
+//					return result;
+//				}
+			});
+			lzBoomMenu.getInstance({
+				mode:1,
+				mainElem: demo3,
+//				subMenuPosition: 'around',
+//				animationTime: 'delay',//togethre delay
+//				delay: 0.1,//delay time
+				
+				setPosition: function(len){
+					var result = [];
+					for (var i = 0; i < len; i++) {
+						result.push({
+							x: (i + 1) * 50,
+							y: (i + 1) * 50,
+						})
+					}
+					return result;
+				}
+			});
+		</script>
+	</body>
+</html>
