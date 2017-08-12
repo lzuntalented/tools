@@ -2,6 +2,7 @@
  * 悬浮菜单
  * create by lz
  * time 20170810
+ * github => https://github.com/lzuntalented/tools
  * 
  * 若使用模板创建节点，不需要添加额外的样式（已内置）
  * 
@@ -30,6 +31,34 @@
 		margin: 0 0;
 		padding: 0 0;
  	}
+ 	
+ 	
+ 	使用示例：
+ 	lzBoomMenu.getInstance({
+		subMenuPosition: 'top',
+		animationTime: 'together',
+		delay: 0,
+		
+		radius: 50,
+		
+		mainElem: null,
+		tpl: '<div>1</div><ul><li>2</li><li>3</li></ul>',
+		mode: 0,
+		
+		setPosition: function(len){
+			var result = [];
+			for (var i = 0; i < len; i++) {
+				result.push({
+					x: (i + 1) * 50,
+					y: (i + 1) * 50,
+				})
+			}
+			return result;
+		},
+		menuClick: function(e,idx){
+			console.log( '第' + idx + '个元素被点击')
+		},
+	});
  */
 ;(function(global){
 	var _default = {
